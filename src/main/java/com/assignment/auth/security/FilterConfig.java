@@ -12,6 +12,8 @@ public class FilterConfig {
         FilterRegistrationBean<JwtAuthenticationFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(jwtAuthenticationFilter);
         registrationBean.addUrlPatterns("/api/auth/protected");
+        registrationBean.addUrlPatterns("/api/auth/revoke");
+        registrationBean.addUrlPatterns("/api/auth/refresh");
         return  registrationBean;
     }
 }

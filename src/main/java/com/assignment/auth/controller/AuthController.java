@@ -35,7 +35,7 @@ public class AuthController {
             authService.authenticate(user.getEmail(), user.getPassword());
             String token = jwtService.generateToken(user.getEmail());
             jwtService.storeToken(token);
-            return ResponseEntity.status(HttpStatus.OK).body(token+"\n");
+            return ResponseEntity.status(HttpStatus.OK).body("Token: "+token+"\n");
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
@@ -44,5 +44,24 @@ public class AuthController {
     @GetMapping("/protected")
     public ResponseEntity<String> protectedEndpoint() {
         return ResponseEntity.ok("You have accessed a protected resource");
+    }
+
+    @PostMapping("/revoke")
+    public ResponseEntity<String> revokeToken(@RequestHeader("Authorization") String authorizationHeader){
+        String token = authorizationHeader.substring(7);
+        jwtService.revokeToken(token);
+        return ResponseEntity.ok("Token revoked!!");
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<String> refreshToken(@RequestHeader("Authorization") String authorizationHeader){
+        String token = authorizationHeader.substring(7);
+        try {
+            String newToken = jwtService.renewToken(token);
+            jwtService.storeToken(newToken);
+            return ResponseEntity.ok("New token: "+newToken);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token Not renewed: "+e.getMessage());
+        }
     }
 }

@@ -17,4 +17,12 @@ public class JwtService {
     public void storeToken(String token){
         tokenRepository.storeToken(token,System.currentTimeMillis()+60000);
     }
+
+    public void revokeToken(String token) {
+        tokenRepository.revokeToken(token);
+    }
+
+    public String renewToken(String token){
+         return JwtUtil.renewToken(token,tokenRepository);
+    }
 }
