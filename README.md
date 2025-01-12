@@ -1,4 +1,4 @@
-1. To bring up the rest service, run script by command ./start.sh .
+1. To bring up the rest service, run script : ./start.sh (Please remember to make the script executable: chmod +x start.sh)
 2. To signup user : curl -X POST localhost:8080/api/auth/signup -d '{"email": "2@b.com","password": "124"}' -H "Content-Type: application/json"
 3. To signin user : curl -X POST localhost:8080/api/auth/signin -d '{"email": "2@b.com","password": "124"}' -H "Content-Type: application/json"
 4. You will get an authentication token from previous command. Using that you can access the protected resource : curl -X GET localhost:8080/api/auth/protected -H "Authorization: Bearer <AUTH_TOKEN>"
